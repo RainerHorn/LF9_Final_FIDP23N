@@ -1,0 +1,64 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - App",
+            "request": "launch",
+            "mainClass": "schueler.App",
+            "projectName": "todo"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - MyHandler",
+            "request": "launch",
+            "mainClass": "schueler.MyHandler",
+            "projectName": "todo"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - SimpleServer",
+            "request": "launch",
+            "mainClass": "schueler.SimpleServer",
+            "projectName": "todo"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - JDBCMain",
+            "request": "launch",
+            "mainClass": "schueler.JDBCMain",
+            "projectName": "todo"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - JDBCMain",
+            "request": "launch",
+            "mainClass": "todo.JDBCMain",
+            "projectName": "todo"
+        },
+        {
+            "type": "java",
+            "name": "JavaFX Client",
+            "request": "launch",
+            "vmArgs": "--module-path ${workspaceFolder}\\lib\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "todo.fxclient.Main",
+            "projectName": "todo"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "ToDo Server",
+            "request": "launch",
+            "mainClass": "todo.App",
+            "projectName": "todo"
+        }
+    ]
+}

@@ -1,0 +1,41 @@
+services:
+  - name: docker:dind
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2  
+  DOCKER_TLS_CERTDIR: ""
+  MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+    paths:
+        - .m2/repository/
+        - target/
+
+stages:
+  - deploy
+  - Build image
+
+deploy:
+    image: maven:latest
+    stage: deploy
+    script:
+        - mvn package
+    tags: 
+        - mmbbs2 
+    only:
+        - master
+    artifacts:
+        paths:
+            - target/todo-todo-jar-with-dependencies.jar
+
+
+docker build:
+  image: docker:stable
+  stage: Build image
+  script:
+    - docker info
+    - docker build  .
+  tags:
+    - mmbbs2

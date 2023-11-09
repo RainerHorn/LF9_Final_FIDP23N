@@ -1,0 +1,80 @@
+### Alle ToDos Abfragen
+GET http://localhost:8000/todo HTTP/1.1
+
+### Eine ToDo eintragen
+POST http://localhost:8000/todo HTTP/1.1
+content-type: Application/JSON
+
+{
+    "title":"etwas machen 2222",
+    "date": "2020-01-01",
+    "proId": null,
+    "priId": null
+
+}
+
+### Eine ToDo löschen
+DELETE http://localhost:8000/todo/3 HTTP/1.1
+
+### Eine ToDo aktualisieren
+PUT http://localhost:8000/todo/4 HTTP/1.1
+content-type: Application/JSON
+
+{
+    "title":"etwas machen neu",
+    "proId":8,
+    "date": 1
+}
+
+
+
+
+
+
+### Alle Projekte Abfragen
+GET http://localhost:8000/project HTTP/1.1
+
+### Eine Projekt anlegen
+POST http://localhost:8000/project HTTP/1.1
+content-type: Application/JSON
+
+{
+    "name":"neues Projekt3"
+}
+
+### Eine Projekt löschen
+DELETE http://localhost:8000/project/2 HTTP/1.1
+
+### Eine Projekt aktualisieren
+PUT http://localhost:8000/project/3 HTTP/1.1
+content-type: Application/JSON
+
+{
+    "name":"neuer Name2"
+}
+
+
+
+### Alle Prioritäten Abfragen
+GET http://localhost:8000/priority HTTP/1.1
+
+### Eine Priorität anlegen
+POST http://localhost:8000/priority HTTP/1.1
+content-type: Application/JSON
+
+{
+    "value":2,
+    "description":"sehr wichtig"
+}
+
+### Eine Priorität löschen
+DELETE http://localhost:8000/priority/3 HTTP/1.1
+
+### Eine Priorität aktualisieren
+PUT http://localhost:8000/priority/4 HTTP/1.1
+content-type: Application/JSON
+
+{
+    "value":10,
+    "description":"unwichtig"
+}
