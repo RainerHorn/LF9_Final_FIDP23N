@@ -26,4 +26,5 @@ buildNumber.properties
 .project
 
 Doku/
+*.db
 
