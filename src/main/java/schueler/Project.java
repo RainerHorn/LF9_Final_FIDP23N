@@ -14,27 +14,27 @@ public class Project extends Entity {
 
     @Override
     public String getCreateStatement() {
-        return null;
+        return "INSERT INTO project VALUES ("+this.getId()+","+this.getName()+");";
     }
 
     @Override
     public String getUpdateStatement() {
-        return null;
+        return "UPDATE project SET name = "+this.getName()+" WHERE projid = "+this.getId()+";";
     }
 
     @Override
     public String getDeleteStatement() {
-        return null;
+        return "DELETE FROM project WHERE name = "+this.getName()+" AND projid = "+this.getId()+";";
     }
 
     @Override
     public String getReadStatement() {
-        return null;
+        return "SELECT * FROM project WHERE proj = "+this.getId()+";";
     }
 
     @Override
     public String getReadAllStatement() {
         // TODO Auto-generated method stub
-        return null;
+        return "SELECT *  FROM project;";
     }
 }
