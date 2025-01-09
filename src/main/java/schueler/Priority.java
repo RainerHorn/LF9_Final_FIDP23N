@@ -25,7 +25,7 @@ public class Priority extends Entity{
 
     @Override
     public String getUpdateStatement() {
-        return "UPDATE Priority SET value = " + this.value + " WHERE name = '" + this.getId() + "';";
+        return "UPDATE Priority SET value = " + this.getValue() +","+ this.getName() + " WHERE name = '" + this.getId() + "';";
     }
 
     @Override
