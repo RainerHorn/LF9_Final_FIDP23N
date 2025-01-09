@@ -50,12 +50,13 @@ public class Task extends Entity {
     @Override
     public String getUpdateStatement() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return "UPDATE task SET name = '" + this.getName() + "', date = " + sdf.format(this.getDate());
+        return "UPDATE task SET name = '" + this.getName() + "', date = " + sdf.format(this.getDate()) + " WHERE id = "
+                + this.getId() + ";";
     }
 
     @Override
     public String getDeleteStatement() {
-        return "DELETE * FROM task WHERE name = '" + this.getName() + "' AND id = " + this.getId();
+        return "DELETE * FROM task WHERE name = '" + this.getName() + "' AND id = " + this.getId() + ";";
     }
 
     @Override
