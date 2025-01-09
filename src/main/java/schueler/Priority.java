@@ -20,31 +20,26 @@ public class Priority extends Entity{
 
     @Override
     public String getCreateStatement() {
-        // TODO Auto-generated method stub
-        return null;
+        return "INSERT INTO priority VALUES ("+this.getId()+","+this.getValue() +","+this.getName()+");";
     }
 
     @Override
     public String getUpdateStatement() {
-        // TODO Auto-generated method stub
-        return null;
+        return "UPDATE Priority SET value = " + this.getValue() +", description = "+ this.getName() + " WHERE id = '" + this.getId() + "';";
     }
 
     @Override
     public String getDeleteStatement() {
-        // TODO Auto-generated method stub
-        return null;
+        return "DELETE FROM Priority WHERE id = '" + this.getId() + "';";
     }
 
     @Override
     public String getReadStatement() {
-        // TODO Auto-generated method stub
-        return null;
+        return "SELECT * FROM Priority WHERE id = '" + this.getId() + "';";
     }
 
     @Override
     public String getReadAllStatement() {
-        // TODO Auto-generated method stub
-        return null;
+        return "SELECT * FROM Priority;";
     }
 }
