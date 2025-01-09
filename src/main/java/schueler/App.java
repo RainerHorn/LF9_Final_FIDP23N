@@ -11,15 +11,15 @@ public class App {
     
     public static void main(String[] args) {
         try {
+            Priority p = new Priority(5,"test123");
             Class.forName("org.sqlite.JDBC");
             SQLiteConfig config = new SQLiteConfig();
             config.enforceForeignKeys(true);
-            Connection c = DriverManager.getConnection("jdbc:sqlite:todo_klein_org.db", config.toProperties());
+            Connection c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            System.out.println(p.getCreateStatement());
 
-            Priority p = new Priority(5,"mittel wichtig");
-            
             Statement st = c.createStatement();
-            st.execute(p.getCreateStatement());
+            st.execute("INSERT INTO priority VALUES (5,mittel wichtig);");
             ResultSet rs = st.executeQuery("select * from priority order by id DESC");
             while (rs.next()) {
                 System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3));
