@@ -19,7 +19,7 @@ public class App {
             System.out.println(p.getCreateStatement());
 
             Statement st = c.createStatement();
-            st.execute("INSERT INTO priority VALUES (5,mittel wichtig);");
+            st.execute("INSERT INTO priority VALUES (17,5,\"mittel wichtig\");");
             ResultSet rs = st.executeQuery("select * from priority order by id DESC");
             while (rs.next()) {
                 System.out.println(rs.getInt(1) + " " + rs.getInt(2) + " " + rs.getString(3));
