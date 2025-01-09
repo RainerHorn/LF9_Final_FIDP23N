@@ -49,7 +49,8 @@ public class Task extends Entity {
 
     @Override
     public String getUpdateStatement() {
-        return "UPDATE task SET name = '" + this.getName() + "', date = " + this.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return "UPDATE task SET name = '" + this.getName() + "', date = " + sdf.format(this.getDate());
     }
 
     @Override
