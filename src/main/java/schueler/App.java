@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+
 import org.sqlite.SQLiteConfig;
 
 public class App {
@@ -14,15 +16,16 @@ public class App {
             Class.forName("org.sqlite.JDBC");
             SQLiteConfig config = new SQLiteConfig();
             config.enforceForeignKeys(true);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Connection c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
 
             Statement st = c.createStatement();
-            Priority p = new Priority(9, "sehr wichtig");
-            p.setId(14);
+            Task p = new Task("testTask", sdf.parse("2024-12-10"));
+            p.setId(30);
             System.out.println("Read Statement:"+p.getReadStatement());
             ResultSet rs = st.executeQuery(p.getReadStatement());
-            //p.setEntity(rs);
-
+            p.setEntity(rs);
+            System.out.println("dummy");
             
             /*Priority p = new Priority(5,"test123");
             st.execute("INSERT INTO priority VALUES (17,5,\"mittel wichtig\");");
@@ -41,7 +44,7 @@ public class App {
         } catch (ClassNotFoundException e) {
             System.out.println("Treiber nicht gefunden");
             e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
