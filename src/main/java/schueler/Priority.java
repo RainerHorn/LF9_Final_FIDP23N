@@ -20,12 +20,12 @@ public class Priority extends Entity{
 
     @Override
     public String getCreateStatement() {
-        return "INSERT INTO priority VALUES ("+this.getId()+","+this.getValue() +","+this.getName()+");";
+        return "INSERT INTO priority VALUES (" + this.getId() + "," + this.getValue() + ",\"" + this.getName() + "\");";
     }
 
     @Override
     public String getUpdateStatement() {
-        return "UPDATE Priority SET value = " + this.getValue() +", description = "+ this.getName() + " WHERE id = '" + this.getId() + "';";
+        return "UPDATE Priority SET value = " + this.getValue() + ", description = \"" + this.getName() + "\" WHERE id = '" + this.getId() + "';";
     }
 
     @Override
