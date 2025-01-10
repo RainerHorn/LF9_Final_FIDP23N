@@ -1,7 +1,16 @@
 package schueler;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.naming.spi.DirStateFactory.Result;
+
+import org.sqlite.SQLiteConfig;
 
 public class Task extends Entity {
 
@@ -67,6 +76,33 @@ public class Task extends Entity {
     @Override
     public String getReadAllStatement() {
         return "SELECT *  FROM task;";
+    }
+
+    @Override
+    public void setEntity(ResultSet rs) {
+        try {
+            setId(rs.getInt("projId"));
+            setName(rs.getString("name"));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            setDate(sdf.parse(rs.getString("date")));
+
+            //Project
+            int projId = rs.getInt("proId");
+            Class.forName("org.sqlite.JDBC");
+            SQLiteConfig config = new SQLiteConfig();
+            config.enforceForeignKeys(true)
+            Connection c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            Statement st = c.createStatement();
+
+            ResultSet rsProj = st.executeQuery("SELECT * FROM project WHERE projId = "+projId);
+            Project pro = new Project(rsProj.getString("title"));
+            setProject(pro);
+
+            //setPriority(rs.getInt("priId"));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
