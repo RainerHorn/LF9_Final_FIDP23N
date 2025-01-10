@@ -14,7 +14,7 @@ public class Project extends Entity {
 
     @Override
     public String getCreateStatement() {
-        return "INSERT INTO project VALUES ("+this.getId()+","+this.getName()+");";
+        return "INSERT INTO project VALUES (" + this.getId() + "," + this.getName() + ");";
     }
 
     @Override
@@ -29,12 +29,22 @@ public class Project extends Entity {
 
     @Override
     public String getReadStatement() {
-        return "SELECT * FROM project WHERE projId = "+this.getId()+";";
+        return "SELECT * FROM project WHERE projId = " + this.getId() + ";";
     }
 
     @Override
     public String getReadAllStatement() {
         // TODO Auto-generated method stub
         return "SELECT *  FROM project;";
+    }
+
+    @Override
+    public void setEntity(ResultSet rs) {
+        try {
+            setId(rs.getInt("projId"));
+            setName(rs.getString("name"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
