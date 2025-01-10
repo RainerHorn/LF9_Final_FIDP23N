@@ -42,4 +42,15 @@ public class Priority extends Entity{
     public String getReadAllStatement() {
         return "SELECT * FROM Priority;";
     }
+    
+    @Override
+    public void setEntity(ResultSet rs) {
+        try {
+            setId(rs.getInt("projId"));
+            setValue(rs.getInt("value"));
+            setName(rs.getString("description"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
