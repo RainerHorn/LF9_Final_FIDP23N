@@ -30,4 +30,5 @@ public abstract class Entity {
     public abstract String getDeleteStatement();
     public abstract String getReadStatement();
     public abstract String getReadAllStatement();
+    public abstract void setEntity();
 }
