@@ -1,4 +1,6 @@
 package schueler;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Priority extends Entity{
     
@@ -46,7 +48,7 @@ public class Priority extends Entity{
     @Override
     public void setEntity(ResultSet rs) {
         try {
-            setId(rs.getInt("projId"));
+            setId(rs.getInt("id"));
             setValue(rs.getInt("value"));
             setName(rs.getString("description"));
         } catch (SQLException e) {

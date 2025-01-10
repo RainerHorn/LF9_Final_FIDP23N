@@ -1,4 +1,5 @@
 package schueler;
+import java.sql.ResultSet;
 
 public abstract class Entity {
 
@@ -30,5 +31,5 @@ public abstract class Entity {
     public abstract String getDeleteStatement();
     public abstract String getReadStatement();
     public abstract String getReadAllStatement();
-    public abstract void setEntity();
+    public abstract void setEntity(ResultSet rs);
 }

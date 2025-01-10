@@ -21,7 +21,8 @@ public class App {
             p.setId(14);
             System.out.println("Read Statement:"+p.getReadStatement());
             ResultSet rs = st.executeQuery(p.getReadStatement());
-            //p.setEntity(rs);
+            p.setEntity(rs);
+            System.out.println("dummy");
 
             
             /*Priority p = new Priority(5,"test123");
