@@ -19,12 +19,12 @@ public class Project extends Entity {
 
     @Override
     public String getUpdateStatement() {
-        return "UPDATE project SET name = "+this.getName()+" WHERE projId = "+this.getId()+";";
+        return "UPDATE project SET name = \""+this.getName()+"\" WHERE projId = "+this.getId()+";";
     }
 
     @Override
     public String getDeleteStatement() {
-        return "DELETE FROM project WHERE name = "+this.getName()+" AND projId = "+this.getId()+";";
+        return "DELETE FROM project WHERE name = \""+this.getName()+"\" AND projId = "+this.getId()+";";
     }
 
     @Override
