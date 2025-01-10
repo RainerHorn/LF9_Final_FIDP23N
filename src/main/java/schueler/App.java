@@ -26,6 +26,7 @@ public class App {
             ResultSet rs = st.executeQuery(p.getReadStatement());
             p.setEntity(rs);
             System.out.println("dummy");
+
             
             /*Priority p = new Priority(5,"test123");
             st.execute("INSERT INTO priority VALUES (17,5,\"mittel wichtig\");");
