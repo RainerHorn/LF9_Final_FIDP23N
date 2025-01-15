@@ -3,11 +3,12 @@ package schueler;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+import org.json.JSONObject;
 import org.sqlite.SQLiteConfig;
 
 public class Task extends Entity {
@@ -100,8 +101,53 @@ public class Task extends Entity {
             int prioId = rs.getInt("priId");
             ResultSet rsPrio = st2.executeQuery("SELECT * FROM priority WHERE id = "+prioId);
             Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
-            setPriority(prio);;
+            setPriority(prio);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toJSON() {
+        JSONObject obj = new JSONObject();
+        obj.put("title",this.getName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        obj.put("date",sdf.format(this.getDate()));
+        obj.put("proId",this.getProject().getId());
+        obj.put("priId",this.getPriority().getId());
+        return obj.toString();
+    }
+
+    @Override
+    public void parseJSON(String jsonString) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            SQLiteConfig config = new SQLiteConfig();
+            config.enforceForeignKeys(true);
+            Connection c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            
+            JSONObject obj = new JSONObject(jsonString);
+
+            this.setName(obj.getString( "name"));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            this.setDate(sdf.parse(obj.getString("date")));
+        
+            Integer projId = obj.getInt("proId");
+            Statement st = c.createStatement();
+            ResultSet rsProj = st.executeQuery("SELECT * FROM project WHERE projId = "+projId);
+            Project proj = new Project(rsProj.getString("name"));
+            this.setProject(proj);
+            
+            Integer prioId = obj.getInt("prijId");
+            Statement st2 = c.createStatement();
+            ResultSet rsPrio = st2.executeQuery("SELECT * FROM project WHERE prioId = "+prioId);
+            Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
+            this.setPriority(prio);
+        }
+        catch (SQLException e) {
+            System.out.println("DATABASE ERROR\n");
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
