@@ -2,6 +2,7 @@ package schueler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.json.JSONObject;
 
 /**
  * Project
@@ -46,5 +47,18 @@ public class Project extends Entity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toJSON() {
+        JSONObject obj = new JSONObject();
+        obj.put("name",this.getName());
+        return obj.toString();
+    }
+
+    @Override
+    public void parseJSON(String jsonString) {
+        JSONObject obj = new JSONObject(jsonString);
+        this.setName(obj.getString("name"));
     }
 }
