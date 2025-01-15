@@ -32,4 +32,6 @@ public abstract class Entity {
     public abstract String getReadStatement();
     public abstract String getReadAllStatement();
     public abstract void setEntity(ResultSet rs);
+    public abstract String toJSON();
+    public abstract void parseJSON(String json);
 }
