@@ -1,12 +1,15 @@
 package schueler;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Priority extends Entity{
-    
+import org.json.JSONObject;
+
+public class Priority extends Entity {
+
     private int value;
 
-    public Priority(int value,String name) {
+    public Priority(int value, String name) {
         super(name);
         this.setValue(value);
     }
@@ -16,7 +19,8 @@ public class Priority extends Entity{
     }
 
     public void setValue(int value) {
-        if (value<0) value=0;
+        if (value < 0)
+            value = 0;
         this.value = value;
     }
 
@@ -27,7 +31,8 @@ public class Priority extends Entity{
 
     @Override
     public String getUpdateStatement() {
-        return "UPDATE Priority SET value = " + this.getValue() + ", description = \"" + this.getName() + "\" WHERE id = '" + this.getId() + "';";
+        return "UPDATE Priority SET value = " + this.getValue() + ", description = \"" + this.getName()
+                + "\" WHERE id = '" + this.getId() + "';";
     }
 
     @Override
@@ -44,7 +49,7 @@ public class Priority extends Entity{
     public String getReadAllStatement() {
         return "SELECT * FROM Priority;";
     }
-    
+
     @Override
     public void setEntity(ResultSet rs) {
         try {
@@ -54,5 +59,20 @@ public class Priority extends Entity{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toJSON() {
+        JSONObject obj = new JSONObject();
+        obj.put("value", this.getValue());
+        obj.put("description", this.getName());
+        return obj.toString();
+    }
+
+    @Override
+    public void parseJSON(String jsonString) {
+        JSONObject obj = new JSONObject(jsonString);
+        this.setName(obj.getString("description"));
+        this.setValue(obj.getInt("value"));
     }
 }
