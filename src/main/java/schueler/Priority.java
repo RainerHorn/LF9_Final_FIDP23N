@@ -9,6 +9,8 @@ public class Priority extends Entity {
 
     private int value;
 
+    public Priority(){ }
+
     public Priority(int value, String name) {
         super(name);
         this.setValue(value);

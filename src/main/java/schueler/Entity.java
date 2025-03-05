@@ -6,6 +6,8 @@ public abstract class Entity {
     private String name;
     protected int id;
 
+    public Entity() {}
+    
     public Entity(String name) {
         this.name=name;
     }

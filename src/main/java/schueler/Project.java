@@ -9,6 +9,8 @@ import org.json.JSONObject;
  */
 public class Project extends Entity {
 
+    public Project() {}
+
     public Project(String n) {
         super(n);
     }
@@ -25,7 +27,7 @@ public class Project extends Entity {
 
     @Override
     public String getDeleteStatement() {
-        return "DELETE FROM project WHERE name = \""+this.getName()+"\" AND projId = "+this.getId()+";";
+        return "DELETE FROM project WHERE name = projId = "+this.getId()+";";
     }
 
     @Override

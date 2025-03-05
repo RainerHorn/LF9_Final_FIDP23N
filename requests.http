@@ -1,8 +1,8 @@
 ### Alle ToDos Abfragen
-GET http://localhost:8000/todo HTTP/1.1
+GET http://localhost:8080/todo HTTP/1.1
 
 ### Eine ToDo eintragen
-POST http://localhost:8000/todo HTTP/1.1
+POST http://localhost:80080/todo HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -14,10 +14,10 @@ content-type: Application/JSON
 }
 
 ### Eine ToDo löschen
-DELETE http://localhost:8000/todo/3 HTTP/1.1
+DELETE http://localhost:8080/todo/3 HTTP/1.1
 
 ### Eine ToDo aktualisieren
-PUT http://localhost:8000/todo/4 HTTP/1.1
+PUT http://localhost:8080/todo/4 HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -32,10 +32,10 @@ content-type: Application/JSON
 
 
 ### Alle Projekte Abfragen
-GET http://localhost:8000/project HTTP/1.1
+GET http://localhost:8080/project HTTP/1.1
 
 ### Eine Projekt anlegen
-POST http://localhost:8000/project HTTP/1.1
+POST http://localhost:8080/project HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -43,10 +43,10 @@ content-type: Application/JSON
 }
 
 ### Eine Projekt löschen
-DELETE http://localhost:8000/project/2 HTTP/1.1
+DELETE http://localhost:8080/project/2 HTTP/1.1
 
 ### Eine Projekt aktualisieren
-PUT http://localhost:8000/project/3 HTTP/1.1
+PUT http://localhost:8080/project/3 HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -56,10 +56,10 @@ content-type: Application/JSON
 
 
 ### Alle Prioritäten Abfragen
-GET http://localhost:8000/priority HTTP/1.1
+GET http://localhost:8080/priority HTTP/1.1
 
 ### Eine Priorität anlegen
-POST http://localhost:8000/priority HTTP/1.1
+POST http://localhost:8080/priority HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -68,10 +68,10 @@ content-type: Application/JSON
 }
 
 ### Eine Priorität löschen
-DELETE http://localhost:8000/priority/3 HTTP/1.1
+DELETE http://localhost:8080/priority/3 HTTP/1.1
 
 ### Eine Priorität aktualisieren
-PUT http://localhost:8000/priority/4 HTTP/1.1
+PUT http://localhost:8080/priority/4 HTTP/1.1
 content-type: Application/JSON
 
 {
