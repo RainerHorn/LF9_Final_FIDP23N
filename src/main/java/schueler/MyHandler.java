@@ -43,13 +43,15 @@ public class MyHandler implements HttpHandler {
         //OutputStream os = exchange.getResponseBody();
         //os.write(response.getBytes());
         //os.close();
-        if (exchange.getRequestMethod() == "GET") {
+        System.out.println("I received something!");
+        String requestMethod = exchange.getRequestMethod();
+        if ("GET".equals(requestMethod)) {
             handleGet(exchange);
-        } else if (exchange.getRequestMethod() == "POST") {
-            handlePost(exchange);(exchange);
-        } else if (exchange.getRequestMethod() == "PUT") {
+        } else if ("POST".equals(requestMethod)) {
+            handlePost(exchange);
+        } else if ("PUT".equals(requestMethod)) {
             handlePut(exchange);
-        } else if (exchange.getRequestMethod() == "DELETE") {
+        } else if ("DELETE".equals(requestMethod)) {
             handleDelete(exchange);
         }
     }
@@ -76,11 +78,15 @@ public class MyHandler implements HttpHandler {
         String deleteStatement = this.entity.getDeleteStatement();
 
         try {
-            Connection c=this.getDBConnection();
+            Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
             Statement st = c.createStatement();
-            ResultSet rs = st.executeQuery(deleteStatement);
-            exchange.sendResponseHeaders(200,0);
-            System.out.println(rs);
+            st.executeUpdate(deleteStatement);
+            String response = "Deletion successful!"; //TODO improve statement
+            exchange.sendResponseHeaders(200, response.getBytes().length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+            System.out.println("Deletion successful!"); // TODO improve statement
         } catch (Exception e) {
             e.printStackTrace();
         }

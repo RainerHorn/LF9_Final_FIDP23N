@@ -68,7 +68,7 @@ content-type: Application/JSON
 }
 
 ### Eine Priorität löschen
-DELETE http://localhost:8080/priority/3 HTTP/1.1
+DELETE http://localhost:8080/priority/13 HTTP/1.1
 
 ### Eine Priorität aktualisieren
 PUT http://localhost:8080/priority/4 HTTP/1.1
@@ -78,3 +78,7 @@ content-type: Application/JSON
     "value":10,
     "description":"unwichtig"
 }
+
+
+### Powershell
+Invoke-RestMethod -Method Delete -Uri "http://localhost:8080/priority/3"
