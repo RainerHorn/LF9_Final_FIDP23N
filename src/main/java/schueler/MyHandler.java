@@ -58,7 +58,26 @@ public class MyHandler implements HttpHandler {
 
     public void handleGet(HttpExchange exchange) {
         String[] uriParts = exchange.getRequestURI().toString().split("/");
-        String id = uriParts[2];
+        String readStatement = "";
+
+        if (uriParts.length == 2) {
+            readStatement = this.entity.getReadAllStatement();
+        }
+        else if (uriParts.length == 3) {
+            int getId = Integer.parseInt(uriParts[2]);
+            this.entity.id = getId;
+            readStatement = this.entity.getReadStatement();
+        }
+
+        try {
+            Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
+            Statement st = c.createStatement();
+            ResultSet rs = st.executeQuery(readStatement);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void handlePost(HttpExchange exchange) {
