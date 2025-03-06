@@ -2,7 +2,7 @@
 GET http://localhost:8080/todo HTTP/1.1
 
 ### Eine ToDo eintragen
-POST http://localhost:80080/todo HTTP/1.1
+POST http://localhost:8080/todo HTTP/1.1
 content-type: Application/JSON
 
 {

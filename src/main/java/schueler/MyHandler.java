@@ -70,6 +70,7 @@ public class MyHandler implements HttpHandler {
         String bodyString = s.hasNext() ? s.next() : "";
         this.entity.parseJSON(bodyString);
         String createStatement = this.entity.getCreateStatement();
+        System.out.println(createStatement);
 
         try {
             Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not

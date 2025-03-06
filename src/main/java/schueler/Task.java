@@ -54,19 +54,19 @@ public class Task extends Entity {
 
     @Override
     public String getCreateStatement() {
-        return "INSERT INTO task VALUES (" + this.getId() + ",'\"" + this.getName() + "\"');";
+        return "INSERT INTO task (title) VALUES (\"" + this.getName() + "\");";
     }
 
     @Override
     public String getUpdateStatement() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return "UPDATE task SET name = '\"" + this.getName() + "\"', date = " + sdf.format(this.getDate()) + " WHERE id = "
+        return "UPDATE task SET name = \"" + this.getName() + "\", date = " + sdf.format(this.getDate()) + " WHERE id = "
                 + this.getId() + ";";
     }
 
     @Override
     public String getDeleteStatement() {
-        return "DELETE * FROM task WHERE name = '\"" + this.getName() + "\"' AND id = " + this.getId() + ";";
+        return "DELETE * FROM task WHERE name = \"" + this.getName() + "\" AND id = " + this.getId() + ";";
     }
 
     @Override
