@@ -1,10 +1,13 @@
 package schueler;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
+import java.util.Scanner;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -62,7 +65,25 @@ public class MyHandler implements HttpHandler {
     }
 
     public void handlePost(HttpExchange exchange) {
+        InputStream body = exchange.getRequestBody();
+        Scanner s = new Scanner(body).useDelimiter("\\A");
+        String bodyString = s.hasNext() ? s.next() : "";
+        this.entity.parseJSON(bodyString);
+        String createStatement = this.entity.getCreateStatement();
 
+        try {
+            Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
+            Statement st = c.createStatement();
+            st.executeUpdate(createStatement);
+            String response = this.entity.toJSON();
+            exchange.sendResponseHeaders(201, response.getBytes().length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+            System.out.println("Creation successful!"); // TODO improve statement
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void handlePut(HttpExchange exchange) {

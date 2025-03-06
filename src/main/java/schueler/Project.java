@@ -17,7 +17,7 @@ public class Project extends Entity {
 
     @Override
     public String getCreateStatement() {
-        return "INSERT INTO project VALUES (" + this.getId() + "," + this.getName() + ");";
+        return "INSERT INTO project (name) VALUES (" + this.getId() + "," + this.getName() + ");";
     }
 
     @Override
