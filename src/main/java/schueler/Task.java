@@ -17,6 +17,8 @@ public class Task extends Entity {
     private Project project;
     private Date date;
 
+    public Task() {}
+
     public Task(String title, Date d) {
         super(title);
         date = d;
