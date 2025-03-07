@@ -28,7 +28,7 @@ public class Priority extends Entity {
 
     @Override
     public String getCreateStatement() {
-        return "INSERT INTO priority VALUES (" + this.getId() + "," + this.getValue() + ",\"" + this.getName() + "\");";
+        return "INSERT INTO priority (value,description) VALUES (" + this.getValue() + ",\"" + this.getName() + "\");";
     }
 
     @Override
