@@ -54,19 +54,19 @@ public class Task extends Entity {
 
     @Override
     public String getCreateStatement() {
-        return "INSERT INTO task VALUES (" + this.getId() + ",'\"" + this.getName() + "\"');";
+        return "INSERT INTO task (title) VALUES (\"" + this.getName() + "\");";
     }
 
     @Override
     public String getUpdateStatement() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return "UPDATE task SET name = '\"" + this.getName() + "\"', date = " + sdf.format(this.getDate()) + " WHERE id = "
+        return "UPDATE task SET name = \"" + this.getName() + "\", date = " + sdf.format(this.getDate()) + " WHERE id = "
                 + this.getId() + ";";
     }
 
     @Override
     public String getDeleteStatement() {
-        return "DELETE * FROM task WHERE name = '\"" + this.getName() + "\"' AND id = " + this.getId() + ";";
+        return "DELETE * FROM task WHERE name = \"" + this.getName() + "\" AND id = " + this.getId() + ";";
     }
 
     @Override
@@ -105,6 +105,11 @@ public class Task extends Entity {
             Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
             setPriority(prio);
 
+            rsProj.close();
+            rsPrio.close();
+            st.close();
+            st2.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,7 +136,7 @@ public class Task extends Entity {
             
             JSONObject obj = new JSONObject(jsonString);
 
-            this.setName(obj.getString( "name"));
+            this.setName(obj.getString( "title"));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             this.setDate(sdf.parse(obj.getString("date")));
         
@@ -141,11 +146,17 @@ public class Task extends Entity {
             Project proj = new Project(rsProj.getString("name"));
             this.setProject(proj);
             
-            Integer prioId = obj.getInt("prijId");
+            Integer prioId = obj.getInt("priId");
             Statement st2 = c.createStatement();
-            ResultSet rsPrio = st2.executeQuery("SELECT * FROM project WHERE prioId = "+prioId);
+            ResultSet rsPrio = st2.executeQuery("SELECT * FROM priority WHERE id = "+prioId);
             Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
             this.setPriority(prio);
+
+            rsProj.close();
+            rsPrio.close();
+            st.close();
+            st2.close();
+            c.close();
         }
         catch (SQLException e) {
             System.out.println("DATABASE ERROR\n");

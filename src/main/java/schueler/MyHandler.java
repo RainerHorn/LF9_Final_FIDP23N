@@ -2,12 +2,16 @@ package schueler;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.text.SimpleDateFormat;
+import java.util.Scanner;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,7 +22,8 @@ import com.sun.net.httpserver.*;
 public class MyHandler implements HttpHandler {
 
     private Entity entity;
-
+    private static Connection c = null;
+    
     public MyHandler(Entity e) {
         this.entity = e;
     }
@@ -94,7 +99,28 @@ public class MyHandler implements HttpHandler {
     }
 
     public void handlePost(HttpExchange exchange) {
+        InputStream body = exchange.getRequestBody();
+        Scanner s = new Scanner(body).useDelimiter("\\A");
+        String bodyString = s.hasNext() ? s.next() : "";
+        this.entity.parseJSON(bodyString);
+        String createStatement = this.entity.getCreateStatement();
+        System.out.println(createStatement);
 
+        try {
+            Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
+            Statement st = c.createStatement();
+            st.executeUpdate(createStatement);
+            String response = this.entity.toJSON();
+            exchange.sendResponseHeaders(201, response.getBytes().length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+            System.out.println("Creation successful!"); // TODO improve statement
+            st.close();
+            c.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void handlePut(HttpExchange exchange) {
@@ -126,12 +152,13 @@ public class MyHandler implements HttpHandler {
     }
 
     private Connection getDBConnection() {
-        Connection c = null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            SQLiteConfig config = new SQLiteConfig();
-            config.enforceForeignKeys(true);
-            c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            if (c==null) {
+                Class.forName("org.sqlite.JDBC");
+                SQLiteConfig config = new SQLiteConfig();
+                config.enforceForeignKeys(true);
+                c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
