@@ -56,7 +56,7 @@ public class Task extends Entity {
     public String getCreateStatement() {
         return "INSERT INTO task (title) VALUES (\"" + this.getName() + "\");";
     }
-
+3
     @Override
     public String getUpdateStatement() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -131,7 +131,7 @@ public class Task extends Entity {
             
             JSONObject obj = new JSONObject(jsonString);
 
-            this.setName(obj.getString( "name"));
+            this.setName(obj.getString( "title"));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             this.setDate(sdf.parse(obj.getString("date")));
         
@@ -141,7 +141,7 @@ public class Task extends Entity {
             Project proj = new Project(rsProj.getString("name"));
             this.setProject(proj);
             
-            Integer prioId = obj.getInt("prijId");
+            Integer prioId = obj.getInt("priId");
             Statement st2 = c.createStatement();
             ResultSet rsPrio = st2.executeQuery("SELECT * FROM project WHERE prioId = "+prioId);
             Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
