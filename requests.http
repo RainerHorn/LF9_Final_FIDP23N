@@ -30,7 +30,7 @@ content-type: Application/JSON
 
 
 ### Alle Projekte Abfragen
-GET http://localhost:8080/project HTTP/1.1
+GET http://localhost:8080/project/13 HTTP/1.1
 
 ### Eine Projekt anlegen
 POST http://localhost:8080/project HTTP/1.1

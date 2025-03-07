@@ -93,6 +93,11 @@ public class MyHandler implements HttpHandler {
                 jsonArray.put(obj);
             }
             System.out.println(jsonArray);
+            exchange.sendResponseHeaders(200, jsonArray.toString().getBytes().length);
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+            OutputStream os = exchange.getResponseBody();
+            os.write(jsonArray.toString().getBytes());
+            os.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
