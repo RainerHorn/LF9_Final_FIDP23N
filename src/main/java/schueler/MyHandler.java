@@ -1,4 +1,5 @@
 package schueler;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -8,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.sqlite.SQLiteConfig;
 
 import com.sun.net.httpserver.*;
@@ -15,9 +18,9 @@ import com.sun.net.httpserver.*;
 public class MyHandler implements HttpHandler {
 
     private Entity entity;
-    
+
     public MyHandler(Entity e) {
-        this.entity=e;
+        this.entity = e;
     }
 
     public static void main(String[] args) {
@@ -37,12 +40,12 @@ public class MyHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        //exchange.getResponseHeaders().add("Content-Type", "application/json");
-        //String response = "{\"version\":1.0}";
-        //exchange.sendResponseHeaders(200, response.getBytes().length);
-        //OutputStream os = exchange.getResponseBody();
-        //os.write(response.getBytes());
-        //os.close();
+        // exchange.getResponseHeaders().add("Content-Type", "application/json");
+        // String response = "{\"version\":1.0}";
+        // exchange.sendResponseHeaders(200, response.getBytes().length);
+        // OutputStream os = exchange.getResponseBody();
+        // os.write(response.getBytes());
+        // os.close();
         System.out.println("I received something!");
         String requestMethod = exchange.getRequestMethod();
         if ("GET".equals(requestMethod)) {
@@ -62,22 +65,32 @@ public class MyHandler implements HttpHandler {
 
         if (uriParts.length == 2) {
             readStatement = this.entity.getReadAllStatement();
-        }
-        else if (uriParts.length == 3) {
+        } else if (uriParts.length == 3) {
             int getId = Integer.parseInt(uriParts[2]);
             this.entity.id = getId;
             readStatement = this.entity.getReadStatement();
         }
 
         try {
-            Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
+            Connection c = this.getDBConnection(); // TODO see if entry exists, return 404 if not
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(readStatement);
-            
+            this.entity.setEntity(rs);
+
+            JSONArray jsonArray = new JSONArray();
+            while (rs.next()) {
+                JSONObject obj = new JSONObject();
+                int total_rows = rs.getMetaData().getColumnCount();
+                for (int i = 0; i < total_rows; i++) {
+                    obj.put(rs.getMetaData().getColumnLabel(i + 1)
+                            .toLowerCase(), rs.getObject(i + 1));
+                }
+                jsonArray.put(obj);
+            }
+            System.out.println(jsonArray);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void handlePost(HttpExchange exchange) {
@@ -92,15 +105,15 @@ public class MyHandler implements HttpHandler {
     public void handleDelete(HttpExchange exchange) {
         String[] uriParts = exchange.getRequestURI().toString().split("/");
         int deleteId = Integer.parseInt(uriParts[2]);
-        this.entity.id=deleteId;
+        this.entity.id = deleteId;
 
         String deleteStatement = this.entity.getDeleteStatement();
 
         try {
-            Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
+            Connection c = this.getDBConnection(); // TODO see if entry exists, return 404 if not
             Statement st = c.createStatement();
             st.executeUpdate(deleteStatement);
-            String response = "Deletion successful!"; //TODO improve statement
+            String response = "Deletion successful!"; // TODO improve statement
             exchange.sendResponseHeaders(200, response.getBytes().length);
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
@@ -109,7 +122,6 @@ public class MyHandler implements HttpHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 
