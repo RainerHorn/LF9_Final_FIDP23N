@@ -13,19 +13,6 @@ content-type: Application/JSON
 
 }
 
-
-POST http://localhost:8080/todo HTTP/1.1
-content-type: Application/JSON
-
-{
-    "title":"etwas machen 2222",
-    "date": "2020-01-01",
-    "proId": 18,
-    "priId": 18
-
-}
-
-
 ### Eine ToDo löschen
 DELETE http://localhost:8080/todo/3 HTTP/1.1
 
@@ -38,8 +25,6 @@ content-type: Application/JSON
     "proId":8,
     "date": 1
 }
-
-
 
 
 

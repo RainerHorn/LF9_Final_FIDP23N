@@ -105,6 +105,11 @@ public class Task extends Entity {
             Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
             setPriority(prio);
 
+            rsProj.close();
+            rsPrio.close();
+            st.close();
+            st2.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,6 +151,12 @@ public class Task extends Entity {
             ResultSet rsPrio = st2.executeQuery("SELECT * FROM priority WHERE id = "+prioId);
             Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
             this.setPriority(prio);
+
+            rsProj.close();
+            rsPrio.close();
+            st.close();
+            st2.close();
+            c.close();
         }
         catch (SQLException e) {
             System.out.println("DATABASE ERROR\n");

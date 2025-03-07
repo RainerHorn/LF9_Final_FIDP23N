@@ -19,6 +19,7 @@ import com.sun.net.httpserver.*;
 public class MyHandler implements HttpHandler {
 
     private Entity entity;
+    private static Connection c = null;
     
     public MyHandler(Entity e) {
         this.entity=e;
@@ -83,6 +84,8 @@ public class MyHandler implements HttpHandler {
             os.write(response.getBytes());
             os.close();
             System.out.println("Creation successful!"); // TODO improve statement
+            st.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -118,12 +121,13 @@ public class MyHandler implements HttpHandler {
     }
 
     private Connection getDBConnection() {
-        Connection c = null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            SQLiteConfig config = new SQLiteConfig();
-            config.enforceForeignKeys(true);
-            c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            if (c==null) {
+                Class.forName("org.sqlite.JDBC");
+                SQLiteConfig config = new SQLiteConfig();
+                config.enforceForeignKeys(true);
+                c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
