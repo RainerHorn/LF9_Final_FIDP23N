@@ -56,7 +56,7 @@ public class Task extends Entity {
     public String getCreateStatement() {
         return "INSERT INTO task (title) VALUES (\"" + this.getName() + "\");";
     }
-3
+
     @Override
     public String getUpdateStatement() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -143,7 +143,7 @@ public class Task extends Entity {
             
             Integer prioId = obj.getInt("priId");
             Statement st2 = c.createStatement();
-            ResultSet rsPrio = st2.executeQuery("SELECT * FROM project WHERE prioId = "+prioId);
+            ResultSet rsPrio = st2.executeQuery("SELECT * FROM priority WHERE id = "+prioId);
             Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
             this.setPriority(prio);
         }
