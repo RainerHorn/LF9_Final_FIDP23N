@@ -83,6 +83,8 @@ public class MyHandler implements HttpHandler {
             os.write(response.getBytes());
             os.close();
             System.out.println("Creation successful!"); // TODO improve statement
+            st.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

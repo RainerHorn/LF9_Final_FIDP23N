@@ -105,6 +105,11 @@ public class Task extends Entity {
             Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
             setPriority(prio);
 
+            rsProj.close();
+            rsPrio.close();
+            st.close();
+            st2.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
