@@ -17,13 +17,13 @@ content-type: Application/JSON
 DELETE http://localhost:8080/todo/3 HTTP/1.1
 
 ### Eine ToDo aktualisieren
-PUT http://localhost:8080/todo/4 HTTP/1.1
+PUT http://localhost:8080/todo/50 HTTP/1.1
 content-type: Application/JSON
 
 {
     "title":"etwas machen neu",
-    "proId":8,
-    "date": 1
+    "proId":13,
+    "date": "2022-01-01"
 }
 
 

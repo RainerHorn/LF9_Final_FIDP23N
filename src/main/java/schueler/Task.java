@@ -134,7 +134,7 @@ public class Task extends Entity {
             config.enforceForeignKeys(true);
             Connection c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
             
-            JSONObject obj = new JSONObject(jsonString);
+            JSONObject obj = new JSONObject(jsonString); //TODO check if FK-Keys are missing and add them with 0
 
             this.setName(obj.getString( "title"));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
