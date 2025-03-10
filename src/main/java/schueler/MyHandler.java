@@ -116,7 +116,6 @@ public class MyHandler implements HttpHandler {
             os.close();
             System.out.println("Creation successful!"); // TODO improve statement
             st.close();
-            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,7 +145,6 @@ public class MyHandler implements HttpHandler {
             os.close();
             System.out.println("Update successful!"); // TODO improve statement
             st.close();
-            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

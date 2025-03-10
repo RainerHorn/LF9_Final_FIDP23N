@@ -44,7 +44,7 @@ content-type: Application/JSON
 DELETE http://localhost:8080/project/2 HTTP/1.1
 
 ### Eine Projekt aktualisieren
-PUT http://localhost:8080/project/3 HTTP/1.1
+PUT http://localhost:8080/project/18 HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -69,7 +69,7 @@ content-type: Application/JSON
 DELETE http://localhost:8080/priority/13 HTTP/1.1
 
 ### Eine Priorität aktualisieren
-PUT http://localhost:8080/priority/4 HTTP/1.1
+PUT http://localhost:8080/priority/19 HTTP/1.1
 content-type: Application/JSON
 
 {
