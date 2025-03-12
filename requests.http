@@ -6,11 +6,10 @@ POST http://localhost:8080/todo HTTP/1.1
 content-type: Application/JSON
 
 {
-    "title":"etwas machen 2222",
+    "title":"ich bin neuer hier",
     "date": "2020-01-01",
-    "proId": 18,
-    "priId": 18
-
+    "proId": 17,
+    "priId": 17
 }
 
 ### Eine ToDo löschen
@@ -21,7 +20,7 @@ PUT http://localhost:8080/todo/50 HTTP/1.1
 content-type: Application/JSON
 
 {
-    "title":"etwas machen neu",
+    "title":"etwas machen neuer",
     "proId":13,
     "date": "2022-01-01"
 }
@@ -48,7 +47,7 @@ PUT http://localhost:8080/project/18 HTTP/1.1
 content-type: Application/JSON
 
 {
-    "name":"neuer Name2"
+    "name":"neuer Name3"
 }
 
 

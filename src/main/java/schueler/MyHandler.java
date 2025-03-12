@@ -12,7 +12,6 @@ import java.util.Scanner;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sqlite.SQLiteConfig;
@@ -92,6 +91,7 @@ public class MyHandler implements HttpHandler {
             OutputStream os = exchange.getResponseBody();
             os.write(jsonArray.toString().getBytes());
             os.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,6 +104,7 @@ public class MyHandler implements HttpHandler {
         s.close();
         this.entity.parseJSON(bodyString);
         String createStatement = this.entity.getCreateStatement();
+        System.out.println(createStatement);
 
         try {
             Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
@@ -116,6 +117,7 @@ public class MyHandler implements HttpHandler {
             os.close();
             System.out.println("Creation successful!"); // TODO improve statement
             st.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -145,6 +147,7 @@ public class MyHandler implements HttpHandler {
             os.close();
             System.out.println("Update successful!"); // TODO improve statement
             st.close();
+            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -167,6 +170,7 @@ public class MyHandler implements HttpHandler {
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
             os.close();
+            c.close();
             System.out.println("Deletion successful!"); // TODO improve statement
         } catch (Exception e) {
             e.printStackTrace();
