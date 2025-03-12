@@ -17,6 +17,7 @@ public class Task extends Entity {
     private Project project;
     private Date date;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private static Connection c = null;
 
     public Task() {}
 
@@ -55,6 +56,7 @@ public class Task extends Entity {
 
     @Override
     public String getCreateStatement() {
+        
         if ((this.date != null)) { // I am very sorry for this :c
             if ((this.priority != null)) {
                 if ((this.project != null)) {
@@ -84,8 +86,8 @@ public class Task extends Entity {
 
     @Override
     public String getUpdateStatement() {
-        return "UPDATE task SET title = \"" + this.getName() + "\", date = " + sdf.format(this.getDate()) + " WHERE id = "
-                + this.getId() + ";";
+        String tmpResponse = "UPDATE task SET title = \"" + this.getName() + "\", date = " + sdf.format(this.getDate()) + ", proId = "+this.getProject().getId()+", priId = "+this.getPriority()+getId()+" WHERE id = "+ this.getId() + ";";
+        return tmpResponse.replaceAll("null[0-9]+","NULL");
     }
 
     @Override
@@ -116,7 +118,7 @@ public class Task extends Entity {
             Class.forName("org.sqlite.JDBC");
             SQLiteConfig config = new SQLiteConfig();
             config.enforceForeignKeys(true);
-            Connection c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            Connection c = this.getDBConnection();
 
             Statement st = c.createStatement();
             ResultSet rsProj = st.executeQuery("SELECT * FROM project WHERE projId = "+projId);
@@ -145,8 +147,12 @@ public class Task extends Entity {
         obj.put("title",this.getName());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         obj.put("date",sdf.format(this.getDate()));
-        obj.put("proId",this.getProject().getId());
-        obj.put("priId",this.getPriority().getId());
+        try {
+            obj.put("proId",this.getProject().getId());
+        } catch (Exception e) {obj.put("proId",JSONObject.NULL);}
+        try {
+            obj.put("priId",this.getPriority().getId());
+        } catch (Exception e) {obj.put("priId",JSONObject.NULL);}
         return obj.toString();
     }
 
@@ -156,7 +162,7 @@ public class Task extends Entity {
             Class.forName("org.sqlite.JDBC");
             SQLiteConfig config = new SQLiteConfig();
             config.enforceForeignKeys(true);
-            Connection c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            Connection c = this.getDBConnection();
 
             /* if ((!jsonString.contains("priId"))) {
                 jsonString.replace("}", ",priId: 0}");
@@ -178,6 +184,7 @@ public class Task extends Entity {
                 Statement st = c.createStatement();
                 ResultSet rsProj = st.executeQuery("SELECT * FROM project WHERE projId = "+projId);
                 Project proj = new Project(rsProj.getString("name"));
+                proj.setId(projId);
                 this.setProject(proj);
                 rsProj.close();
                 st.close();
@@ -190,6 +197,7 @@ public class Task extends Entity {
                 Statement st2 = c.createStatement();
                 ResultSet rsPrio = st2.executeQuery("SELECT * FROM priority WHERE id = "+prioId);
                 Priority prio = new Priority(rsPrio.getInt("value"),rsPrio.getString("description"));
+                prio.setId(prioId);
                 this.setPriority(prio);
                 rsPrio.close();
                 st2.close();
@@ -205,6 +213,20 @@ public class Task extends Entity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Connection getDBConnection() {
+        try {
+            if (c==null) {
+                Class.forName("org.sqlite.JDBC");
+                SQLiteConfig config = new SQLiteConfig();
+                config.enforceForeignKeys(true);
+                c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return c;
     }
 
 }
