@@ -6,24 +6,22 @@ POST http://localhost:8080/todo HTTP/1.1
 content-type: Application/JSON
 
 {
-    "title":"etwas machen 2222",
+    "title":"ich bin am neuesten hier",
     "date": "2020-01-01",
-    "proId": 18,
-    "priId": 18
-
+    "priId": 13
 }
 
 ### Eine ToDo löschen
 DELETE http://localhost:8080/todo/3 HTTP/1.1
 
 ### Eine ToDo aktualisieren
-PUT http://localhost:8080/todo/4 HTTP/1.1
+PUT http://localhost:8080/todo/45 HTTP/1.1
 content-type: Application/JSON
 
 {
-    "title":"etwas machen neu",
-    "proId":8,
-    "date": 1
+    "title":"etwas machen neuer",
+    "proId":13,
+    "date": "2022-01-01"
 }
 
 
@@ -44,11 +42,11 @@ content-type: Application/JSON
 DELETE http://localhost:8080/project/2 HTTP/1.1
 
 ### Eine Projekt aktualisieren
-PUT http://localhost:8080/project/3 HTTP/1.1
+PUT http://localhost:8080/project/18 HTTP/1.1
 content-type: Application/JSON
 
 {
-    "name":"neuer Name2"
+    "name":"neuer Name3"
 }
 
 
@@ -69,7 +67,7 @@ content-type: Application/JSON
 DELETE http://localhost:8080/priority/13 HTTP/1.1
 
 ### Eine Priorität aktualisieren
-PUT http://localhost:8080/priority/4 HTTP/1.1
+PUT http://localhost:8080/priority/19 HTTP/1.1
 content-type: Application/JSON
 
 {

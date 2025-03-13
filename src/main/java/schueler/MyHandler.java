@@ -12,7 +12,6 @@ import java.util.Scanner;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sqlite.SQLiteConfig;
@@ -45,12 +44,6 @@ public class MyHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // exchange.getResponseHeaders().add("Content-Type", "application/json");
-        // String response = "{\"version\":1.0}";
-        // exchange.sendResponseHeaders(200, response.getBytes().length);
-        // OutputStream os = exchange.getResponseBody();
-        // os.write(response.getBytes());
-        // os.close();
         System.out.println("I received something!");
         String requestMethod = exchange.getRequestMethod();
         if ("GET".equals(requestMethod)) {
@@ -107,6 +100,7 @@ public class MyHandler implements HttpHandler {
         InputStream body = exchange.getRequestBody();
         Scanner s = new Scanner(body).useDelimiter("\\A");
         String bodyString = s.hasNext() ? s.next() : "";
+        s.close();
         this.entity.parseJSON(bodyString);
         String createStatement = this.entity.getCreateStatement();
         System.out.println(createStatement);
@@ -122,7 +116,6 @@ public class MyHandler implements HttpHandler {
             os.close();
             System.out.println("Creation successful!"); // TODO improve statement
             st.close();
-            c.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,8 +123,33 @@ public class MyHandler implements HttpHandler {
 
     public void handlePut(HttpExchange exchange) {
         String[] uriParts = exchange.getRequestURI().toString().split("/");
-        String id = uriParts[2];
+        int updateId = Integer.parseInt(uriParts[2]);
+        this.entity.id = updateId;
+
+        InputStream body = exchange.getRequestBody();
+        Scanner s = new Scanner(body).useDelimiter("\\A");
+        String bodyString = s.hasNext() ? s.next() : "";
+        s.close();
+        this.entity.parseJSON(bodyString);
+        String updateStatement = this.entity.getUpdateStatement();
+        System.out.println(updateStatement);
+
+        try {
+            Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
+            Statement st = c.createStatement();
+            st.executeUpdate(updateStatement);
+            String response = this.entity.toJSON();
+            exchange.sendResponseHeaders(200, response.getBytes().length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+            System.out.println("Update successful!"); // TODO improve statement
+            st.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     public void handleDelete(HttpExchange exchange) {
         String[] uriParts = exchange.getRequestURI().toString().split("/");
