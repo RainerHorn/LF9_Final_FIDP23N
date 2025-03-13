@@ -76,6 +76,6 @@ public class Priority extends Entity {
         JSONObject obj = new JSONObject(jsonString);
         this.setName(obj.getString("description"));
         this.setValue(obj.getInt("value"));
-        this.setValue(obj.getInt("id"));
+        //this.setValue(obj.getInt("id"));
     }
 }

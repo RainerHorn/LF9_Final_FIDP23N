@@ -64,30 +64,37 @@ public class MyHandler implements HttpHandler {
             int getId = Integer.parseInt(uriParts[2]);
             this.entity.id = getId;
             readStatement = this.entity.getReadStatement();
+
         }
 
         try {
-            Connection c = this.getDBConnection(); // TODO see if entry exists, return 404 if not
+            Connection c = this.getDBConnection();
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(readStatement);
-            this.entity.setEntity(rs);
-
-            JSONArray jsonArray = new JSONArray();
-            while (rs.next()) {
-                JSONObject obj = new JSONObject();
-                int total_rows = rs.getMetaData().getColumnCount();
-                for (int i = 0; i < total_rows; i++) {
-                    obj.put(rs.getMetaData().getColumnLabel(i + 1)
-                            .toLowerCase(), rs.getObject(i + 1));
+            this.entity.setEntity(rs); 
+            if ((this.entity.toJSON().length() == 2 )) {
+                exchange.sendResponseHeaders(404, 0);
+                exchange.getResponseHeaders().set("Content-Type", "application/json");
+                OutputStream os = exchange.getResponseBody();
+                os.close();
+            } else {
+                JSONArray jsonArray = new JSONArray();
+                while (rs.next()) {
+                    JSONObject obj = new JSONObject();
+                    int total_rows = rs.getMetaData().getColumnCount();
+                    for (int i = 0; i < total_rows; i++) {
+                        obj.put(rs.getMetaData().getColumnLabel(i + 1)
+                                .toLowerCase(), rs.getObject(i + 1));
+                    }
+                    jsonArray.put(obj);
                 }
-                jsonArray.put(obj);
+                System.out.println(jsonArray);
+                exchange.sendResponseHeaders(200, jsonArray.toString().getBytes().length);
+                exchange.getResponseHeaders().set("Content-Type", "application/json");
+                OutputStream os = exchange.getResponseBody();
+                os.write(jsonArray.toString().getBytes());
+                os.close();
             }
-            System.out.println(jsonArray);
-            exchange.sendResponseHeaders(200, jsonArray.toString().getBytes().length);
-            exchange.getResponseHeaders().set("Content-Type", "application/json");
-            OutputStream os = exchange.getResponseBody();
-            os.write(jsonArray.toString().getBytes());
-            os.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,7 +110,7 @@ public class MyHandler implements HttpHandler {
         System.out.println(createStatement);
 
         try {
-            Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
+            Connection c=this.getDBConnection();
             Statement st = c.createStatement();
             st.executeUpdate(createStatement);
             String response = this.entity.toJSON();
@@ -122,26 +129,40 @@ public class MyHandler implements HttpHandler {
         String[] uriParts = exchange.getRequestURI().toString().split("/");
         int updateId = Integer.parseInt(uriParts[2]);
         this.entity.id = updateId;
+        String readStatement = this.entity.getReadStatement();
+        System.out.println(readStatement);
 
         InputStream body = exchange.getRequestBody();
         Scanner s = new Scanner(body).useDelimiter("\\A");
         String bodyString = s.hasNext() ? s.next() : "";
         s.close();
-        this.entity.parseJSON(bodyString);
-        String updateStatement = this.entity.getUpdateStatement();
-        System.out.println(updateStatement);
-
+        System.out.println(bodyString);
         try {
-            Connection c=this.getDBConnection(); //TODO see if entry exists, return 404 if not
-            Statement st = c.createStatement();
-            st.executeUpdate(updateStatement);
-            String response = this.entity.toJSON();
-            exchange.sendResponseHeaders(200, response.getBytes().length);
-            OutputStream os = exchange.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
-            System.out.println("Update successful!"); // TODO improve statement
-            st.close();
+            Connection c=this.getDBConnection();
+            Statement st2 = c.createStatement();
+            ResultSet rs = st2.executeQuery(readStatement);
+            this.entity.setEntity(rs); 
+            if ((this.entity.toJSON().length() == 2 )) {
+                exchange.sendResponseHeaders(404, 0);
+                exchange.getResponseHeaders().set("Content-Type", "application/json");
+                OutputStream os = exchange.getResponseBody();
+                os.close();
+            } else {
+                this.entity.parseJSON(bodyString);
+                String updateStatement = this.entity.getUpdateStatement();
+                System.out.println(updateStatement);
+                Statement st = c.createStatement();
+                st.executeUpdate(updateStatement);
+                String response = this.entity.toJSON();
+                exchange.sendResponseHeaders(200, response.getBytes().length);
+                OutputStream os = exchange.getResponseBody();
+                os.write(response.getBytes());
+                os.close();
+                System.out.println("Update successful!"); // TODO improve statement
+                st.close();
+            }
+            rs.close();
+            st2.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

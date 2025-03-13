@@ -15,7 +15,7 @@ content-type: Application/JSON
 DELETE http://localhost:8080/todo/3 HTTP/1.1
 
 ### Eine ToDo aktualisieren
-PUT http://localhost:8080/todo/45 HTTP/1.1
+PUT http://localhost:8080/todo/999 HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -28,7 +28,7 @@ content-type: Application/JSON
 
 
 ### Alle Projekte Abfragen
-GET http://localhost:8080/project/13 HTTP/1.1
+GET http://localhost:8080/project/37 HTTP/1.1
 
 ### Eine Projekt anlegen
 POST http://localhost:8080/project HTTP/1.1
@@ -42,7 +42,7 @@ content-type: Application/JSON
 DELETE http://localhost:8080/project/2 HTTP/1.1
 
 ### Eine Projekt aktualisieren
-PUT http://localhost:8080/project/18 HTTP/1.1
+PUT http://localhost:8080/project/998 HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -67,7 +67,7 @@ content-type: Application/JSON
 DELETE http://localhost:8080/priority/13 HTTP/1.1
 
 ### Eine Priorität aktualisieren
-PUT http://localhost:8080/priority/19 HTTP/1.1
+PUT http://localhost:8080/priority/999 HTTP/1.1
 content-type: Application/JSON
 
 {
