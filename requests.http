@@ -6,7 +6,7 @@ POST http://localhost:8080/todo HTTP/1.1
 content-type: Application/JSON
 
 {
-    "title":"ich bin am neuesten hier",
+    "title":"ich bin am auch hier",
     "date": "2020-01-01",
     "priId": 13
 }

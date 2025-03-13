@@ -57,18 +57,18 @@ public class Task extends Entity {
     @Override
     public String getCreateStatement() {
         
-        if ((this.date != null)) { // I am very sorry for this :c
+        if ((this.date != null)) { // I would not think that we still need this, but if I remove it the code breaks
             if ((this.priority != null)) {
                 if ((this.project != null)) {
-                    return "INSERT INTO task (title,date,proId,priId) VALUES (\"" + this.getName() + "\","+sdf.format(this.getDate())+","+this.getProject().getId()+","+this.getPriority().getId()+");";
+                    return "INSERT INTO task (title,date,proId,priId) VALUES (\"" + this.getName() + "\",\""+sdf.format(this.getDate())+"\","+this.getProject().getId()+","+this.getPriority().getId()+");";
                 } else {
-                    return "INSERT INTO task (title,date,priId) VALUES (\"" + this.getName() + "\","+sdf.format(this.getDate())+","+this.getPriority().getId()+");";
+                    return "INSERT INTO task (title,date,priId) VALUES (\"" + this.getName() + "\",\""+sdf.format(this.getDate())+"\","+this.getPriority().getId()+");";
                 }
             } else {
                 if ((this.project != null)) {
-                    return "INSERT INTO task (title,date,proId) VALUES (\"" + this.getName() + "\","+sdf.format(this.getDate())+","+this.getProject().getId()+");";
+                    return "INSERT INTO task (title,date,proId) VALUES (\"" + this.getName() + "\",\""+sdf.format(this.getDate())+"\","+this.getProject().getId()+");";
                 } else {
-                    return "INSERT INTO task (title,date) VALUES (\"" + this.getName() + "\","+sdf.format(this.getDate())+");";
+                    return "INSERT INTO task (title,date) VALUES (\"" + this.getName() + "\",\""+sdf.format(this.getDate())+"\");";
                 }
             }
         } else {
