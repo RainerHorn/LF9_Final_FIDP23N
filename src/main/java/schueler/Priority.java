@@ -56,6 +56,7 @@ public class Priority extends Entity {
     public void setEntity(ResultSet rs) {
         try {
             setId(rs.getInt("id"));
+            System.out.println(rs.getInt("value"));
             setValue(rs.getInt("value"));
             setName(rs.getString("description"));
         } catch (SQLException e) {

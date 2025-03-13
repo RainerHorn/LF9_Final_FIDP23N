@@ -72,7 +72,7 @@ public class MyHandler implements HttpHandler {
             Statement st = c.createStatement();
             ResultSet rs = st.executeQuery(readStatement);
             this.entity.setEntity(rs); 
-            if ((this.entity.toJSON().length() == 2 )) {
+            if ((this.entity.toJSON().length() == 2  || "{\"value\":0}".equals(this.entity.toJSON()))) {
                 exchange.sendResponseHeaders(404, 0);
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
                 OutputStream os = exchange.getResponseBody();
@@ -142,7 +142,8 @@ public class MyHandler implements HttpHandler {
             Statement st2 = c.createStatement();
             ResultSet rs = st2.executeQuery(readStatement);
             this.entity.setEntity(rs); 
-            if ((this.entity.toJSON().length() == 2 )) {
+            System.out.println(this.entity.toJSON());
+            if ((this.entity.toJSON().length() == 2 || "{\"value\":0}".equals(this.entity.toJSON()))) {
                 exchange.sendResponseHeaders(404, 0);
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
                 OutputStream os = exchange.getResponseBody();
