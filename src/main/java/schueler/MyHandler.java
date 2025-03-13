@@ -96,7 +96,7 @@ public class MyHandler implements HttpHandler {
         }
     }
 
-    public void handlePost(HttpExchange exchange) { //TODO handle null's in foreign keys
+    public void handlePost(HttpExchange exchange) {
         InputStream body = exchange.getRequestBody();
         Scanner s = new Scanner(body).useDelimiter("\\A");
         String bodyString = s.hasNext() ? s.next() : "";
@@ -121,7 +121,7 @@ public class MyHandler implements HttpHandler {
         }
     }
 
-    public void handlePut(HttpExchange exchange) { //TODO handle null's in foreign keys
+    public void handlePut(HttpExchange exchange) {
         String[] uriParts = exchange.getRequestURI().toString().split("/");
         int updateId = Integer.parseInt(uriParts[2]);
         this.entity.id = updateId;

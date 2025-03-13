@@ -164,13 +164,6 @@ public class Task extends Entity {
             config.enforceForeignKeys(true);
             Connection c = this.getDBConnection();
 
-            /* if ((!jsonString.contains("priId"))) {
-                jsonString.replace("}", ",priId: 0}");
-            }
-
-            if ((!jsonString.contains("proId"))) {
-                jsonString.replace("}", ",proId: 0}");
-            } */
 
             System.out.println(jsonString);
             JSONObject obj = new JSONObject(jsonString);
@@ -188,9 +181,7 @@ public class Task extends Entity {
                 this.setProject(proj);
                 rsProj.close();
                 st.close();
-            } catch(Exception e) {
-                System.out.println("Error");
-            }
+            } catch(Exception e) {}
             
             try {
                 Integer prioId = obj.getInt("priId");
@@ -201,9 +192,7 @@ public class Task extends Entity {
                 this.setPriority(prio);
                 rsPrio.close();
                 st2.close();
-            } catch(Exception e) {
-                System.out.println("Error");
-            }
+            } catch(Exception e) {}
             
             c.close();
         }

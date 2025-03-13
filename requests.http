@@ -8,14 +8,14 @@ content-type: Application/JSON
 {
     "title":"ich bin am neuesten hier",
     "date": "2020-01-01",
-    "priId": 17
+    "priId": 13
 }
 
 ### Eine ToDo löschen
 DELETE http://localhost:8080/todo/3 HTTP/1.1
 
 ### Eine ToDo aktualisieren
-PUT http://localhost:8080/todo/50 HTTP/1.1
+PUT http://localhost:8080/todo/45 HTTP/1.1
 content-type: Application/JSON
 
 {
