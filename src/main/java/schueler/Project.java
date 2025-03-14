@@ -37,8 +37,7 @@ public class Project extends Entity {
 
     @Override
     public String getReadAllStatement() {
-        // TODO Auto-generated method stub
-        return "SELECT *  FROM project;";
+        return "SELECT * FROM project;";
     }
 
     @Override

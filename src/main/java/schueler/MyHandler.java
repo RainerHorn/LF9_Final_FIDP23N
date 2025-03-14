@@ -51,6 +51,12 @@ public class MyHandler implements HttpHandler {
             handlePut(exchange);
         } else if ("DELETE".equals(requestMethod)) {
             handleDelete(exchange);
+        } else {
+            String response = "Only GET, POST, PUT and DELETE are allowed!";
+            exchange.sendResponseHeaders(405, response.getBytes().length);
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
         }
     }
 
@@ -64,7 +70,6 @@ public class MyHandler implements HttpHandler {
             int getId = Integer.parseInt(uriParts[2]);
             this.entity.id = getId;
             readStatement = this.entity.getReadStatement();
-
         }
 
         try {
@@ -101,13 +106,13 @@ public class MyHandler implements HttpHandler {
     }
 
     public void handlePost(HttpExchange exchange) {
+        String[] uriParts = exchange.getRequestURI().toString().split("/");
         InputStream body = exchange.getRequestBody();
         Scanner s = new Scanner(body).useDelimiter("\\A");
         String bodyString = s.hasNext() ? s.next() : "";
         s.close();
         this.entity.parseJSON(bodyString);
         String createStatement = this.entity.getCreateStatement();
-        System.out.println(createStatement);
 
         try {
             Connection c=this.getDBConnection();
@@ -118,7 +123,7 @@ public class MyHandler implements HttpHandler {
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
             os.close();
-            System.out.println("Creation successful!"); // TODO improve statement
+            System.out.println("Creation of "+uriParts[1]+" successful !");
             st.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,7 +163,7 @@ public class MyHandler implements HttpHandler {
                 OutputStream os = exchange.getResponseBody();
                 os.write(response.getBytes());
                 os.close();
-                System.out.println("Update successful!"); // TODO improve statement
+                System.out.println("Update of "+uriParts[1]+" successful!");
                 st.close();
             }
             rs.close();
@@ -191,12 +196,12 @@ public class MyHandler implements HttpHandler {
             } else {
                 Statement st = c.createStatement();
                 st.executeUpdate(deleteStatement);
-                String response = "Deletion successful!"; // TODO improve statement
+                String response = "Deletion of "+uriParts[1]+" successful!";
                 exchange.sendResponseHeaders(200, response.getBytes().length);
                 OutputStream os = exchange.getResponseBody();
                 os.write(response.getBytes());
                 os.close();
-                System.out.println("Deletion successful!"); // TODO improve statement
+                System.out.println("Deletion of "+uriParts[1]+" successful!");
             }
         } catch (Exception e) {
             e.printStackTrace();

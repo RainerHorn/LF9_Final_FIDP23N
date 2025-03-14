@@ -64,10 +64,10 @@ content-type: Application/JSON
 }
 
 ### Eine Priorität löschen
-DELETE http://localhost:8080/priority/17 HTTP/1.1
+DELETE http://localhost:8080/priority/23 HTTP/1.1
 
 ### Eine Priorität aktualisieren
-PUT http://localhost:8080/priority/999 HTTP/1.1
+PATCH http://localhost:8080/priority/22 HTTP/1.1
 content-type: Application/JSON
 
 {
