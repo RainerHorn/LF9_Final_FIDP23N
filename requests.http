@@ -28,7 +28,7 @@ content-type: Application/JSON
 
 
 ### Alle Projekte Abfragen
-GET http://localhost:8080/project/37 HTTP/1.1
+GET http://localhost:8080/project/111 HTTP/1.1
 
 ### Eine Projekt anlegen
 POST http://localhost:8080/project HTTP/1.1
@@ -64,7 +64,7 @@ content-type: Application/JSON
 }
 
 ### Eine Priorität löschen
-DELETE http://localhost:8080/priority/23 HTTP/1.1
+DELETE http://localhost:8080/priority/24 HTTP/1.1
 
 ### Eine Priorität aktualisieren
 PATCH http://localhost:8080/priority/22 HTTP/1.1

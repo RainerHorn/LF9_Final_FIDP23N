@@ -1,4 +1,4 @@
-package schueler;
+package schueler;   
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -78,8 +78,9 @@ public class MyHandler implements HttpHandler {
             ResultSet rs = st.executeQuery(readStatement);
             this.entity.setEntity(rs); 
             if ((this.entity.toJSON().length() == 2  || "{\"value\":0}".equals(this.entity.toJSON()))) {
+                exchange.getResponseHeaders().add("Content-Type", "application/json");
+                exchange.getResponseHeaders().add("X-Clacks-Overhead", "GNU Terry Pratchett");
                 exchange.sendResponseHeaders(404, 0);
-                exchange.getResponseHeaders().set("Content-Type", "application/json");
                 OutputStream os = exchange.getResponseBody();
                 os.close();
             } else {
@@ -94,8 +95,9 @@ public class MyHandler implements HttpHandler {
                     jsonArray.put(obj);
                 }
                 System.out.println(jsonArray);
+                exchange.getResponseHeaders().add("Content-Type", "application/json");
+                exchange.getResponseHeaders().add("X-Clacks-Overhead", "GNU Terry Pratchett");
                 exchange.sendResponseHeaders(200, jsonArray.toString().getBytes().length);
-                exchange.getResponseHeaders().set("Content-Type", "application/json");
                 OutputStream os = exchange.getResponseBody();
                 os.write(jsonArray.toString().getBytes());
                 os.close();
@@ -119,6 +121,7 @@ public class MyHandler implements HttpHandler {
             Statement st = c.createStatement();
             st.executeUpdate(createStatement);
             String response = this.entity.toJSON();
+            exchange.getResponseHeaders().add("X-Clacks-Overhead", "GNU Terry Pratchett");
             exchange.sendResponseHeaders(201, response.getBytes().length);
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
@@ -148,8 +151,9 @@ public class MyHandler implements HttpHandler {
             this.entity.setEntity(rs); 
             System.out.println(this.entity.toJSON());
             if ((this.entity.toJSON().length() == 2 || "{\"value\":0}".equals(this.entity.toJSON()))) {
+                exchange.getResponseHeaders().add("Content-Type", "application/json");
+                exchange.getResponseHeaders().add("X-Clacks-Overhead", "GNU Terry Pratchett");
                 exchange.sendResponseHeaders(404, 0);
-                exchange.getResponseHeaders().set("Content-Type", "application/json");
                 OutputStream os = exchange.getResponseBody();
                 os.close();
             } else {
@@ -159,6 +163,7 @@ public class MyHandler implements HttpHandler {
                 Statement st = c.createStatement();
                 st.executeUpdate(updateStatement);
                 String response = this.entity.toJSON();
+                exchange.getResponseHeaders().add("X-Clacks-Overhead", "GNU Terry Pratchett");
                 exchange.sendResponseHeaders(200, response.getBytes().length);
                 OutputStream os = exchange.getResponseBody();
                 os.write(response.getBytes());
@@ -189,14 +194,16 @@ public class MyHandler implements HttpHandler {
             this.entity.setEntity(rs); 
             System.out.println(this.entity.toJSON());
             if ((this.entity.toJSON().length() == 2 || "{\"value\":0}".equals(this.entity.toJSON()))) {
+                exchange.getResponseHeaders().add("Content-Type", "application/json");
+                exchange.getResponseHeaders().add("X-Clacks-Overhead", "GNU Terry Pratchett");
                 exchange.sendResponseHeaders(404, 0);
-                exchange.getResponseHeaders().set("Content-Type", "application/json");
                 OutputStream os = exchange.getResponseBody();
                 os.close();
             } else {
                 Statement st = c.createStatement();
                 st.executeUpdate(deleteStatement);
                 String response = "Deletion of "+uriParts[1]+" successful!";
+                exchange.getResponseHeaders().add("X-Clacks-Overhead", "GNU Terry Pratchett");
                 exchange.sendResponseHeaders(200, response.getBytes().length);
                 OutputStream os = exchange.getResponseBody();
                 os.write(response.getBytes());
