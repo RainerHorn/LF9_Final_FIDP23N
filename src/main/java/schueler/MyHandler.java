@@ -130,7 +130,6 @@ public class MyHandler implements HttpHandler {
         int updateId = Integer.parseInt(uriParts[2]);
         this.entity.id = updateId;
         String readStatement = this.entity.getReadStatement();
-        System.out.println(readStatement);
 
         InputStream body = exchange.getRequestBody();
         Scanner s = new Scanner(body).useDelimiter("\\A");
@@ -174,19 +173,31 @@ public class MyHandler implements HttpHandler {
         String[] uriParts = exchange.getRequestURI().toString().split("/");
         int deleteId = Integer.parseInt(uriParts[2]);
         this.entity.id = deleteId;
+        String readStatement = this.entity.getReadStatement();
 
         String deleteStatement = this.entity.getDeleteStatement();
 
         try {
-            Connection c = this.getDBConnection(); // TODO see if entry exists, return 404 if not
-            Statement st = c.createStatement();
-            st.executeUpdate(deleteStatement);
-            String response = "Deletion successful!"; // TODO improve statement
-            exchange.sendResponseHeaders(200, response.getBytes().length);
-            OutputStream os = exchange.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
-            System.out.println("Deletion successful!"); // TODO improve statement
+            Connection c=this.getDBConnection();
+            Statement st2 = c.createStatement();
+            ResultSet rs = st2.executeQuery(readStatement);
+            this.entity.setEntity(rs); 
+            System.out.println(this.entity.toJSON());
+            if ((this.entity.toJSON().length() == 2 || "{\"value\":0}".equals(this.entity.toJSON()))) {
+                exchange.sendResponseHeaders(404, 0);
+                exchange.getResponseHeaders().set("Content-Type", "application/json");
+                OutputStream os = exchange.getResponseBody();
+                os.close();
+            } else {
+                Statement st = c.createStatement();
+                st.executeUpdate(deleteStatement);
+                String response = "Deletion successful!"; // TODO improve statement
+                exchange.sendResponseHeaders(200, response.getBytes().length);
+                OutputStream os = exchange.getResponseBody();
+                os.write(response.getBytes());
+                os.close();
+                System.out.println("Deletion successful!"); // TODO improve statement
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
