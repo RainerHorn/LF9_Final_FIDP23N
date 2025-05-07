@@ -1,41 +1,37 @@
 ### Alle ToDos Abfragen
-GET http://localhost:8000/todo HTTP/1.1
+GET http://localhost:8080/todo HTTP/1.1
 
 ### Eine ToDo eintragen
-POST http://localhost:8000/todo HTTP/1.1
+POST http://localhost:8080/todo HTTP/1.1
 content-type: Application/JSON
 
 {
-    "title":"etwas machen 2222",
+    "title":"ich bin am auch hier",
     "date": "2020-01-01",
-    "proId": null,
-    "priId": null
-
+    "priId": 13
 }
 
 ### Eine ToDo löschen
-DELETE http://localhost:8000/todo/3 HTTP/1.1
+DELETE http://localhost:8080/todo/3 HTTP/1.1
 
 ### Eine ToDo aktualisieren
-PUT http://localhost:8000/todo/4 HTTP/1.1
+PUT http://localhost:8080/todo/999 HTTP/1.1
 content-type: Application/JSON
 
 {
-    "title":"etwas machen neu",
-    "proId":8,
-    "date": 1
+    "title":"etwas machen neuer",
+    "proId":13,
+    "date": "2022-01-01"
 }
-
-
 
 
 
 
 ### Alle Projekte Abfragen
-GET http://localhost:8000/project HTTP/1.1
+GET http://localhost:8080/project/111 HTTP/1.1
 
 ### Eine Projekt anlegen
-POST http://localhost:8000/project HTTP/1.1
+POST http://localhost:8080/project HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -43,23 +39,23 @@ content-type: Application/JSON
 }
 
 ### Eine Projekt löschen
-DELETE http://localhost:8000/project/2 HTTP/1.1
+DELETE http://localhost:8080/project/2 HTTP/1.1
 
 ### Eine Projekt aktualisieren
-PUT http://localhost:8000/project/3 HTTP/1.1
+PUT http://localhost:8080/project/998 HTTP/1.1
 content-type: Application/JSON
 
 {
-    "name":"neuer Name2"
+    "name":"neuer Name3"
 }
 
 
 
 ### Alle Prioritäten Abfragen
-GET http://localhost:8000/priority HTTP/1.1
+GET http://localhost:8080/priority HTTP/1.1
 
 ### Eine Priorität anlegen
-POST http://localhost:8000/priority HTTP/1.1
+POST http://localhost:8080/priority HTTP/1.1
 content-type: Application/JSON
 
 {
@@ -68,13 +64,17 @@ content-type: Application/JSON
 }
 
 ### Eine Priorität löschen
-DELETE http://localhost:8000/priority/3 HTTP/1.1
+DELETE http://localhost:8080/priority/24 HTTP/1.1
 
 ### Eine Priorität aktualisieren
-PUT http://localhost:8000/priority/4 HTTP/1.1
+PATCH http://localhost:8080/priority/22 HTTP/1.1
 content-type: Application/JSON
 
 {
     "value":10,
     "description":"unwichtig"
 }
+
+
+### Powershell
+Invoke-RestMethod -Method Delete -Uri "http://localhost:8080/priority/3"

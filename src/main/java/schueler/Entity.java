@@ -1,10 +1,13 @@
 package schueler;
+import java.sql.ResultSet;
 
 public abstract class Entity {
 
     private String name;
     protected int id;
 
+    public Entity() {}
+    
     public Entity(String name) {
         this.name=name;
     }
@@ -30,4 +33,7 @@ public abstract class Entity {
     public abstract String getDeleteStatement();
     public abstract String getReadStatement();
     public abstract String getReadAllStatement();
+    public abstract void setEntity(ResultSet rs);
+    public abstract String toJSON();
+    public abstract void parseJSON(String json);
 }

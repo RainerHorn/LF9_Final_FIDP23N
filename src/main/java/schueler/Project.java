@@ -2,11 +2,14 @@ package schueler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.json.JSONObject;
 
 /**
  * Project
  */
 public class Project extends Entity {
+
+    public Project() {}
 
     public Project(String n) {
         super(n);
@@ -14,27 +17,49 @@ public class Project extends Entity {
 
     @Override
     public String getCreateStatement() {
-        return null;
+        return "INSERT INTO project (name) VALUES (\"" + this.getName() + "\");";
     }
 
     @Override
     public String getUpdateStatement() {
-        return null;
+        return "UPDATE project SET name = \""+this.getName()+"\" WHERE projId = "+this.getId()+";";
     }
 
     @Override
     public String getDeleteStatement() {
-        return null;
+        return "DELETE FROM project WHERE name = projId = "+this.getId()+";";
     }
 
     @Override
     public String getReadStatement() {
-        return null;
+        return "SELECT * FROM project WHERE projId = " + this.getId() + ";";
     }
 
     @Override
     public String getReadAllStatement() {
-        // TODO Auto-generated method stub
-        return null;
+        return "SELECT * FROM project;";
+    }
+
+    @Override
+    public void setEntity(ResultSet rs) {
+        try {
+            setId(rs.getInt("projId"));
+            setName(rs.getString("name"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String toJSON() {
+        JSONObject obj = new JSONObject();
+        obj.put("name",this.getName());
+        return obj.toString();
+    }
+
+    @Override
+    public void parseJSON(String jsonString) {
+        JSONObject obj = new JSONObject(jsonString);
+        this.setName(obj.getString("name"));
     }
 }
