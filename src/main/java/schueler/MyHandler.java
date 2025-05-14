@@ -15,6 +15,7 @@ import org.sqlite.SQLiteConfig;
 
 import com.sun.net.httpserver.*;
 
+@SuppressWarnings("restriction")
 public class MyHandler implements HttpHandler {
 
     private Entity entity;

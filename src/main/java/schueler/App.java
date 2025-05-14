@@ -1,10 +1,6 @@
 package schueler;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
+
 
 import org.sqlite.SQLiteConfig;
 
@@ -15,9 +11,8 @@ public class App {
             Class.forName("org.sqlite.JDBC");
             SQLiteConfig config = new SQLiteConfig();
             config.enforceForeignKeys(true);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Connection c = DriverManager.getConnection("jdbc:sqlite:todo.db", config.toProperties());
-
+           
+            
             /*Statement st = c.createStatement();
             Task p = new Task("testTask", sdf.parse("2024-12-10"));
             p.setId(30);
